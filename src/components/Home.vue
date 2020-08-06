@@ -10,24 +10,29 @@
     <el-container>
       <el-aside width="200px">
         <div class="toggle-button" @click="toggleCollapse">|||</div>
-        <el-menu class="el-menu-vertical-demo" background-color="#373d41" text-color="#fff" unique-opened :collapse='isCollapse' :collapse-transition='false'>
+        <el-menu class="el-menu-vertical-demo" background-color="#373d41" text-color="#fff"
+                 unique-opened :collapse='isCollapse' :collapse-transition='false' router
+                 :default-active="defaultActive">
           <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
             <template slot="title">
               <i :class="iconsObj[item.id]"></i>
-              <span>{{item.authName}}</span>
+              <span>{{ item.authName }}</span>
             </template>
-            <el-menu-item :index="subItem.id+''" v-for="subItem in item.children" :key="subItem.id">
+            <el-menu-item :index="'/'+subItem.path" v-for="subItem in item.children" :key="subItem.id"
+                          @click="saveNavState('/' +subItem.path)">
               <template slot="title">
                 <!-- 图标 -->
                 <i class="el-icon-menu"></i>
                 <!-- 文本 -->
-                <span>{{subItem.authName}}</span>
+                <span>{{ subItem.authName }}</span>
               </template>
             </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -37,6 +42,7 @@ export default {
     return {
       menuList: [],
       isCollapse: false,
+      defaultActive: '',
       iconsObj: {
         125: 'iconfont icon-user',
         103: 'iconfont icon-tijikongjian',
@@ -49,6 +55,7 @@ export default {
   created () {
     // 获取菜单数据
     this.getMenuList()
+    this.defaultActive = window.sessionStorage.getItem('defaultActive')
   },
   methods: {
     logout () {
@@ -64,7 +71,11 @@ export default {
       }
     },
     toggleCollapse () {
-      this.isCollapse = !this.isCollapse
+      this.isCollapse = !this.isCollapse;
+    },
+    saveNavState (path) {
+      window.sessionStorage.setItem('defaultActive', path);
+      this.defaultActive = path;
     }
   }
 }
@@ -72,6 +83,7 @@ export default {
 <style lang="less" scoped>
 .el-container {
   height: 100%;
+
   .el-header {
     background-color: #373d41;
     display: flex;
@@ -80,19 +92,24 @@ export default {
     align-items: center;
     color: #fff;
     font-size: 20px;
+
     > div {
       display: flex;
       align-items: center;
+
       span {
         margin-left: 15px;
       }
     }
   }
+
   .el-aside {
     background-color: #373d41;
+
     .el-menu {
       border-right: none;
     }
+
     .toggle-button {
       background-color: #4a5064;
       font-size: 10px;

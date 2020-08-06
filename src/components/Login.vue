@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-box">
       <div class="avatar_box">
-        <img src="../assets/logo.png" />
+        <img src="../assets/logo.png"/>
       </div>
       <el-form :rules="formRules" ref="loginFormRef" :model="loginForm" label-width="0px" class="login_form">
         <el-form-item prop="username">
@@ -30,12 +30,30 @@ export default {
       },
       formRules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          {
+            required: true,
+            message: '请输入用户名',
+            trigger: 'blur'
+          },
+          {
+            min: 3,
+            max: 5,
+            message: '长度在 3 到 5 个字符',
+            trigger: 'blur'
+          }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 10, message: '长度在 6 到 10 个字符', trigger: 'blur' }
+          {
+            required: true,
+            message: '请输入密码',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            max: 10,
+            message: '长度在 6 到 10 个字符',
+            trigger: 'blur'
+          }
         ]
       }
     };
@@ -50,13 +68,21 @@ export default {
           const { data: result } = await this.$http.post('/login', this.loginForm);
 
           if (result.meta.status == 200) {
-            this.$message({ showClose: true, message: '登录成功!', type: 'success' })
+            this.$message({
+              showClose: true,
+              message: '登录成功!',
+              type: 'success'
+            })
             // 把token存放到sessionStorage
             window.sessionStorage.setItem('token', result.data.token)
             // 登录成功跳转到home页面
             this.$router.push('/home')
           } else {
-            this.$message({ showClose: true, message: '登录失败!', type: 'error' })
+            this.$message({
+              showClose: true,
+              message: '登录失败!',
+              type: 'error'
+            })
           }
         }
       })
@@ -91,6 +117,7 @@ export default {
       left: 50%;
       transform: translate(-50%, -50%);
       background-color: #fff;
+
       img {
         width: 100%;
         height: 100%;
@@ -98,6 +125,7 @@ export default {
         background-color: #eee;
       }
     }
+
     .login_form {
       position: absolute;
       bottom: 0;
