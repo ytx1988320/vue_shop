@@ -4,6 +4,9 @@ import Login from './components/Login.vue'
 import Home from './components/Home.vue'
 import Welcome from './components/Welcome.vue'
 import User from './components/user/User.vue'
+import Roles from './components/power/Roles.vue'
+import Rights from './components/power/Rights.vue'
+import Cate from '@/components/goods/Cate.vue';
 
 Vue.use(VueRouter)
 
@@ -19,15 +22,27 @@ const routes = [
   {
     path: '/home',
     component: Home,
-    redirect: '/home',
+    redirect: '/welcome',
     children: [
       {
-        path: '/home',
+        path: '/welcome',
         component: Welcome
       },
       {
         path: '/users',
         component: User
+      },
+      {
+        path: '/roles',
+        component: Roles
+      },
+      {
+        path: '/rights',
+        component: Rights
+      },
+      {
+        path: '/categories',
+        component: Cate
       }
     ]
   }
@@ -36,6 +51,11 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 router.beforeEach((to, from, next) => {
   if (to.path == '/login') {

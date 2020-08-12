@@ -21,7 +21,7 @@
         </el-col>
       </el-row>
       <el-table :data="userlist" style="width: 100%" border stripe>
-        <el-table-column type="index"></el-table-column>
+        <el-table-column type="index" label="#"></el-table-column>
         <el-table-column prop="username" label="姓名" width="180">
         </el-table-column>
         <el-table-column prop="email" label="邮箱" width="180">

@@ -4,7 +4,9 @@ html ,body ,#app
     margin: 0;
     padding: 0;
 }
-
+#app{
+    min-width: 1466px;
+}
 .el-breadcrumb {
     margin-bottom: 15px;
     font-size: 12px;
